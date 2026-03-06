@@ -1,4 +1,8 @@
-# Ignore local development files
+# Development files
+.git
+.gitignore
+.env.local
+.env.*.local
 .vscode
 .idea
 *.log
@@ -6,11 +10,19 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Ignore OS files
-.DS_Store
-Thumbs.db
+# Build artifacts
+dist
+build
+.next
+out
 
-# Ignore tests
+# Dependencies
+node_modules
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Testing
 coverage
 .nyc_output
 __tests__
@@ -19,16 +31,22 @@ __tests__
 *.spec.ts
 *.spec.tsx
 
-# Ignore documentation
+# Documentation
 README.md
 CHANGELOG.md
 docs
 
-# Ignore environment files
-.env.local
-.env.*.local
+# OS files
+.DS_Store
+Thumbs.db
 
-# Ignore Manus-specific files
+# Manus specific
 .manus-logs
 attached_assets
 webdev-static-assets
+
+# Development configs
+vite.config.ts
+tsconfig.json
+vitest.config.ts
+drizzle.config.ts
