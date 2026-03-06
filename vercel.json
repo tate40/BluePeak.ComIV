@@ -15,7 +15,7 @@
   ],
   "functions": {
     "dist/index.js": {
-      "runtime": "nodejs20.x",
+      "runtime": "nodejs18.x",
       "maxDuration": 60,
       "memory": 1024
     }
