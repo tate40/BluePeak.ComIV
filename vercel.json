@@ -1,12 +1,21 @@
 {
-  "version": 3,
+  "version": 1,
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "env": {
+    "NODE_ENV": "production"
+  },
   "builds": [
     {
-      "src": "dist/public/**/*",
-      "use": "@vercel/static"
+      "src": "package.json",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/dist/index.js"
+    },
     {
       "src": "/(.*)",
       "dest": "/dist/public/$1"
