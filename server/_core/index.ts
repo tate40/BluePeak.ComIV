@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 
+// Check if a port is available (kept for fallback)
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
     const server = net.createServer();
@@ -30,11 +31,14 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
+
   // tRPC API
   app.use(
     "/api/trpc",
@@ -43,14 +47,18 @@ async function startServer() {
       createContext,
     })
   );
-  // development mode uses Vite, production mode uses static files
+
+  // Development vs Production
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
-  const preferredPort = parseInt(process.env.PORT || "3000");
+  // ✅ FIXED PORT LOGIC
+  // Use Railway's assigned port first, fallback to 3000 if not set
+  const railwayPort = process.env.PORT ? parseInt(process.env.PORT) : undefined;
+  const preferredPort = railwayPort || 3000;
   const port = await findAvailablePort(preferredPort);
 
   if (port !== preferredPort) {
@@ -58,8 +66,10 @@ async function startServer() {
   }
 
   server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+    // Log the port without "localhost" so Railway can route correctly
+    console.log(`Server running on port ${port}`);
   });
 }
 
+// Start the server
 startServer().catch(console.error);
