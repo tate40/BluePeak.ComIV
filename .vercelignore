@@ -1,0 +1,52 @@
+# Development files
+.git
+.gitignore
+.env.local
+.env.*.local
+.vscode
+.idea
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build artifacts
+dist
+build
+.next
+out
+
+# Dependencies
+node_modules
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Testing
+coverage
+.nyc_output
+__tests__
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Documentation
+README.md
+CHANGELOG.md
+docs
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Manus specific
+.manus-logs
+attached_assets
+webdev-static-assets
+
+# Development
+vite.config.ts
+tsconfig.json
+vitest.config.ts
+drizzle.config.ts
